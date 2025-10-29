@@ -32,6 +32,7 @@ This challenge pushes boundaries intentionally. You'll tackle problems that norm
 **The new reality:** The four stages of competence are Ignorance → Awareness → Learning → Mastery. AI lets us produce Mastery-level work while operating primarily in the Awareness stage. I focus on awareness training, you leverage AI for execution, and together we create outputs that used to require years of dedicated study.
 :::
 
+
 ## The Scurvy Story: A Data Science Tragedy
 
 Scurvy was a devastating disease that affected sailors on long voyages. The cure was discovered in 1747, but due to a misunderstanding about the cause, the cure was lost for over 150 years. The story involves three different understandings of the data generating process:
@@ -106,6 +107,29 @@ Your task is to recreate these three historical DAGs using DAFT, making them vis
 # Your code here - recreate the DAG from the reference image
 # Use DAFT to create nodes and edges that match the visual structure
 # Customize colors and styling to make it professional
+
+
+# Create the PGM (Probabilistic Graphical Model)
+pgm = daft.PGM(dpi=150, aspect=1.6)
+
+# Add nodes for Lemons and Scurvy Prevention
+pgm.add_node("lemons", "Lemons / Citrus Intake", 0, 0, aspect=3, scale=1.2,
+             plot_params={'facecolor':'#ffe066', 'edgecolor':'orange', 'linewidth':2})
+pgm.add_node("scurvy", "Scurvy Prevention", 3, 0, aspect=3, scale=1.2,
+             plot_params={'facecolor':'#b3ffb3', 'edgecolor':'green', 'linewidth':2})
+
+# Add directional edge showing the causal link
+pgm.add_edge("lemons", "scurvy")
+
+# Render and display
+pgm.render()
+plt.title("DAG 1: 1747 Understanding — Lemons prevent Scurvy", fontsize=12)
+plt.show()
+
+
+
+
+
 ```
 
 ### DAG 2: The Misguided Belief (Wrong Understanding)
@@ -127,6 +151,28 @@ Your task is to recreate these three historical DAGs using DAFT, making them vis
 # Your code here - recreate the DAG from the reference image
 # This DAG should show the incorrect causal chain
 # Use different colors or styling to indicate this is the wrong understanding
+
+pgm = daft.PGM(dpi=150, aspect=1.8)
+
+# Add nodes for Acid, Bacteria Death, and Scurvy Prevention
+pgm.add_node("acid", "Acid (from Lemons)", 0, 0, aspect=3, scale=1.1,
+             plot_params={'facecolor':'#ffcccc', 'edgecolor':'darkred', 'linewidth':2})
+pgm.add_node("bacteria", "Bacteria Death", 2, 0, aspect=3, scale=1.1,
+             plot_params={'facecolor':'#ffebcc', 'edgecolor':'brown', 'linewidth':2})
+pgm.add_node("scurvy", "Scurvy Prevention", 4, 0, aspect=3, scale=1.1,
+             plot_params={'facecolor':'#b3ffb3', 'edgecolor':'green', 'linewidth':2})
+
+# Add edges to represent the incorrect causal chain
+pgm.add_edge("acid", "bacteria")
+pgm.add_edge("bacteria", "scurvy")
+
+# Render and display
+pgm.render()
+plt.title("DAG 2: Misguided Belief — Acid kills Bacteria → prevents Scurvy", fontsize=12)
+plt.show()
+
+
+
 ```
 
 ### DAG 3: The 1928 Understanding (Complete and Correct)
@@ -148,6 +194,34 @@ Your task is to recreate these three historical DAGs using DAFT, making them vis
 # Your code here - recreate the DAG from the reference image
 # This should be the most complete and accurate representation
 # Use professional styling that would be suitable for a scientific publication
+
+#| label: dag-3-1928
+#| echo: true
+
+# Create a DAG showing the 1928 understanding: Vitamin C → Scurvy Prevention
+
+import daft
+import matplotlib.pyplot as plt
+
+# Create the PGM (Probabilistic Graphical Model)
+pgm = daft.PGM(dpi=150, aspect=1.6)
+
+# Add nodes for Vitamin C and Scurvy Prevention
+pgm.add_node("vitamin_c", "Vitamin C Intake", 0, 0, aspect=3, scale=1.2,
+             plot_params={'facecolor':'#ccffcc', 'edgecolor':'darkgreen', 'linewidth':2})
+pgm.add_node("scurvy", "Scurvy Prevention", 3, 0, aspect=3, scale=1.2,
+             plot_params={'facecolor':'#b3e6ff', 'edgecolor':'navy', 'linewidth':2})
+
+# Add edge showing the correct causal link
+pgm.add_edge("vitamin_c", "scurvy")
+
+# Render and display
+pgm.render()
+plt.title("DAG 3: 1928 Understanding — Vitamin C prevents Scurvy", fontsize=12)
+plt.show()
+
+
+
 ```
 
 ## Student Requirements Section: Mastering DAFT Visualization {#student-analysis-section}
