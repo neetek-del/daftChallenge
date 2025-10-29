@@ -114,9 +114,9 @@ pgm = daft.PGM(dpi=150, aspect=1.6)
 
 # Add nodes for Lemons and Scurvy Prevention
 pgm.add_node("lemons", "Lemons / Citrus Intake", 0, 0, aspect=3, scale=1.2,
-             plot_params={'facecolor':'#ffe066', 'edgecolor':'orange', 'linewidth':2})
+             plot_params={'facecolor':'#ffe066', 'edgecolor':'orange', 'linewidth':1.5})
 pgm.add_node("scurvy", "Scurvy Prevention", 3, 0, aspect=3, scale=1.2,
-             plot_params={'facecolor':'#b3ffb3', 'edgecolor':'green', 'linewidth':2})
+             plot_params={'facecolor':'#b3ffb3', 'edgecolor':'green', 'linewidth':1.5})
 
 # Add directional edge showing the causal link
 pgm.add_edge("lemons", "scurvy")
@@ -151,25 +151,61 @@ plt.show()
 # Your code here - recreate the DAG from the reference image
 # This DAG should show the incorrect causal chain
 # Use different colors or styling to indicate this is the wrong understanding
+import daft
+import matplotlib.pyplot as plt
 
+# Create the PGM (Probabilistic Graphical Model)
 pgm = daft.PGM(dpi=150, aspect=1.8)
 
 # Add nodes for Acid, Bacteria Death, and Scurvy Prevention
-pgm.add_node("acid", "Acid (from Lemons)", 0, 0, aspect=3, scale=1.1,
-             plot_params={'facecolor':'#ffcccc', 'edgecolor':'darkred', 'linewidth':2})
-pgm.add_node("bacteria", "Bacteria Death", 2, 0, aspect=3, scale=1.1,
-             plot_params={'facecolor':'#ffebcc', 'edgecolor':'brown', 'linewidth':2})
-pgm.add_node("scurvy", "Scurvy Prevention", 4, 0, aspect=3, scale=1.1,
-             plot_params={'facecolor':'#b3ffb3', 'edgecolor':'green', 'linewidth':2})
+pgm.add_node(
+    "acid",
+    "Acid (from Lemons)",
+    0, 0,  # bottom-left
+    aspect=3.5,  # fixed missing aspect
+    scale=1.1,
+    plot_params={
+        'facecolor': '#fff44f',  # Lemon yellow
+        'edgecolor': '#e6e600',  # Darker yellow
+        'linewidth': 1.5
+    }
+)
 
-# Add edges to represent the incorrect causal chain
+pgm.add_node(
+    "bacteria",
+    "Bacteria Death",
+    2, 1,  # slanted upwards for visual flow
+    aspect=3,
+    scale=1.1,
+    plot_params={
+        'facecolor': '#ffebcc',  # Soft orange/tan
+        'edgecolor': '#cc6600',  # Darker orange/brown
+        'linewidth': 1.5
+    }
+)
+
+pgm.add_node(
+    "scurvy",
+    "Scurvy Prevention",
+    4, 2,  # top-right for slanted line
+    aspect=3,
+    scale=1.1,
+    plot_params={
+        'facecolor': '#b3ffb3',  # Soft green
+        'edgecolor': 'green',
+        'linewidth': 1.5
+    }
+)
+
+# Add edges for the causal chain
 pgm.add_edge("acid", "bacteria")
 pgm.add_edge("bacteria", "scurvy")
 
 # Render and display
 pgm.render()
-plt.title("DAG 2: Misguided Belief — Acid kills Bacteria → prevents Scurvy", fontsize=12)
+plt.title("DAG 2: Misguided Belief — Acid kills Bacteria → prevents Scurvy (Slanted Line)", fontsize=12)
 plt.show()
+
 
 
 
@@ -199,20 +235,40 @@ plt.show()
 #| echo: true
 
 # Create a DAG showing the 1928 understanding: Vitamin C → Scurvy Prevention
-
 import daft
 import matplotlib.pyplot as plt
 
 # Create the PGM (Probabilistic Graphical Model)
-pgm = daft.PGM(dpi=150, aspect=1.6)
+pgm = daft.PGM(dpi=150, aspect=0.8)  # Taller figure for vertical layout
 
-# Add nodes for Vitamin C and Scurvy Prevention
-pgm.add_node("vitamin_c", "Vitamin C Intake", 0, 0, aspect=3, scale=1.2,
-             plot_params={'facecolor':'#ccffcc', 'edgecolor':'darkgreen', 'linewidth':2})
-pgm.add_node("scurvy", "Scurvy Prevention", 3, 0, aspect=3, scale=1.2,
-             plot_params={'facecolor':'#b3e6ff', 'edgecolor':'navy', 'linewidth':2})
+# Add nodes for Vitamin C and Scurvy Prevention in a vertical line (top → bottom)
+pgm.add_node(
+    "vitamin_c",
+    "Vitamin C Intake",
+    0, 3,  # top
+    aspect=3,
+    scale=1.2,
+    plot_params={
+        'facecolor': '#ccffcc',  # Soft green
+        'edgecolor': 'darkgreen',
+        'linewidth': 2
+    }
+)
 
-# Add edge showing the correct causal link
+pgm.add_node(
+    "scurvy",
+    "Scurvy Prevention",
+    0, 0,  # bottom
+    aspect=3,
+    scale=1.2,
+    plot_params={
+        'facecolor': '#b3e6ff',  # Soft blue
+        'edgecolor': 'navy',
+        'linewidth': 2
+    }
+)
+
+# Add edge showing the causal link (top → bottom)
 pgm.add_edge("vitamin_c", "scurvy")
 
 # Render and display
@@ -220,68 +276,6 @@ pgm.render()
 plt.title("DAG 3: 1928 Understanding — Vitamin C prevents Scurvy", fontsize=12)
 plt.show()
 
-
-
-```
-
-## Student Requirements Section: Mastering DAFT Visualization {#student-analysis-section}
-
-**Your Task:** Demonstrate your mastery of DAFT through comprehensive recreation of the three scurvy DAGs and thoughtful analysis. The bulk of your grade comes from successfully recreating the DAGs and answering the discussion questions.
-
-::: {.callout-important}
-## 📊 Challenge Requirements
-
-**Complete all DAG recreation sections:**
-
-1. **DAG 1 (1747):** Lemons prevent scurvy - correct but incomplete
-2. **DAG 2 (Misguided):** Acid kills bacteria - wrong understanding  
-3. **DAG 3 (1928):** Vitamin C prevents scurvy - complete and correct
-4. **Optional:** Add a little professional styling to the DAGs to make them more visually appealing (example: use nice fill colors and/or enclose the text in the ellipse completely).
-:::
-
-### Professional Quality Standards
-
-**Your DAGs should:**
-
-- (90% grade): Accurately recreate the reference images
-- (100% grade): Add professional colors and possibly play with shapes to make it more visually appealing (example: use nice fill colors and/or enclose the text in the ellipse completely). Erase everything but the story of scurvy and the three DAGs
-- Include clear, readable labels
-- Demonstrate understanding of DAFT customization options
-- Be suitable for a business or academic audience
-
-### Example: Professional DAFT Node Styling
-
-Here's an example (see @fig-example-node) of how to create a professionally styled node in DAFT with nice captions and references to the figure:
-
-```{python}
-#| label: fig-example-node
-#| echo: true
-#| fig-cap: "Example: Professional DAFT Node Styling"
-
-import daft
-import matplotlib.pyplot as plt
-
-# Create a PGM object
-pgm = daft.PGM(dpi=150, alternate_style="outer")
-
-# Example of a professionally styled node
-pgm.add_node("vitamin_c", "Vitamin C\nIntake" + r" $(X)$", 1, 1, aspect = 3, scale = 1.1,
-             plot_params={
-                 'facecolor': 'lightgreen', 
-                 'edgecolor': 'darkgreen', 
-                 'linewidth': 2,
-                 'alpha': 0.8,
-             })
-pgm.add_node("health", "Healthiness\n"+r" $(Y)$", 3.25, 1, aspect = 3, scale = 1.1,
-             plot_params={
-                 'facecolor': 'thistle', 
-                 'edgecolor': 'purple', 
-                 'linewidth': 2,
-                 'alpha': 0.8,
-             })
-pgm.add_edge("vitamin_c", "health")
-
-pgm.render()
 ```
 
 **Key Styling Parameters:**
